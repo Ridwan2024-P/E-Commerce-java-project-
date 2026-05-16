@@ -2,6 +2,7 @@ package e_commerce.University.controller;
 
 import e_commerce.University.dto.UserDTO;
 
+import e_commerce.University.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,9 +11,9 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final com.example.demo.service.UserService userService;
+    private final UserService userService;
 
-    public UserController(com.example.demo.service.UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

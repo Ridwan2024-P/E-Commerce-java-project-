@@ -1,4 +1,8 @@
 package e_commerce.University.Enum;
 
-public class OrderStatus {
+public enum OrderStatus {
+    PENDING,
+    ACCEPTED,
+    CANCELLED,
+    DELIVERED
 }

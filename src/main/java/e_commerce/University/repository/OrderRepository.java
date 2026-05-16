@@ -1,4 +1,7 @@
 package e_commerce.University.repository;
 
-public class OrderRepository {
+import e_commerce.University.entity.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderRepository extends JpaRepository<Order, Long> {
 }

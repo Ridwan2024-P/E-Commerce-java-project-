@@ -4,8 +4,13 @@ import e_commerce.University.entity.User;
 import e_commerce.University.Enum.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,19 +21,22 @@ public class UserRepository {
     private JdbcTemplate jdbcTemplate;
 
 
-    public int save(User user) {
+    public User save(User user) {
 
-        String sql = "INSERT INTO users(name, email, password, role, created_at) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users(name, email, password, role, created_at) VALUES (?, ?, ?, ?, ?) RETURNING id";
 
-        return jdbcTemplate.update(sql,
+        Long id = jdbcTemplate.queryForObject(sql, new Object[]{
                 user.getName(),
                 user.getEmail(),
                 user.getPassword(),
                 user.getRole().toString(),
                 user.getCreatedAt()
-        );
-    }
+        }, Long.class);
 
+        user.setId(id);
+
+        return user;
+    }
 
     public List<User> findAll() {
 

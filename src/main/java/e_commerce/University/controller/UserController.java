@@ -1,7 +1,6 @@
 package e_commerce.University.controller;
 
 import e_commerce.University.dto.UserDTO;
-
 import e_commerce.University.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,33 +18,57 @@ public class UserController {
 
 
     @PostMapping
-    public UserDTO createUser(@RequestBody UserDTO userDTO) {
-        return userService.createUser(userDTO);
+    public Object createUser(@RequestBody UserDTO userDTO) {
+
+        try {
+            return userService.createUser(userDTO);
+        } catch (Exception e) {
+            return "Error creating user: " + e.getMessage();
+        }
     }
 
 
     @GetMapping
-    public List<UserDTO> getAllUsers() {
-        return userService.getAllUsers();
+    public Object getAllUsers() {
+
+        try {
+            return userService.getAllUsers();
+        } catch (Exception e) {
+            return "Error fetching users: " + e.getMessage();
+        }
     }
 
 
     @GetMapping("/{id}")
-    public UserDTO getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    public Object getUserById(@PathVariable Long id) {
+
+        try {
+            return userService.getUserById(id);
+        } catch (Exception e) {
+            return "User not found: " + e.getMessage();
+        }
     }
 
 
-
     @PutMapping("/{id}")
-    public UserDTO updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-        return userService.updateUser(id, userDTO);
+    public Object updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+
+        try {
+            return userService.updateUser(id, userDTO);
+        } catch (Exception e) {
+            return "Error updating user: " + e.getMessage();
+        }
     }
 
 
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return "User deleted successfully";
+    public Object deleteUser(@PathVariable Long id) {
+
+        try {
+            userService.deleteUser(id);
+            return "User deleted successfully";
+        } catch (Exception e) {
+            return "Error deleting user: " + e.getMessage();
+        }
     }
 }

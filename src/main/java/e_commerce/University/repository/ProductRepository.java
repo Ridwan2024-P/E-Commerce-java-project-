@@ -21,24 +21,18 @@ public class ProductRepository {
 
     public Product save(Product product) {
 
-        String sql = "INSERT INTO products(name, price, stock) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO products(name, price, stock) VALUES (?, ?, ?) RETURNING id";
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+        Long id = jdbcTemplate.queryForObject(sql,
+                new Object[]{
+                        product.getName(),
+                        product.getPrice(),
+                        product.getStock()
+                },
+                Long.class
+        );
 
-        jdbcTemplate.update(connection -> {
-
-
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-            ps.setString(1, product.getName());
-            ps.setDouble(2, product.getPrice());
-            ps.setInt(3, product.getStock());
-
-            return ps;
-        }, keyHolder);
-
-
-        product.setId(keyHolder.getKey().longValue());
+        product.setId(id);
 
         return product;
     }

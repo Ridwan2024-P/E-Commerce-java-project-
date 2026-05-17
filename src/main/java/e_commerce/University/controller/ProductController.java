@@ -17,32 +17,54 @@ public class ProductController {
         this.service = service;
     }
 
+
     @PostMapping
-    public ResponseEntity<ProductDTO> create(@RequestBody ProductDTO dto) {
-        return ResponseEntity.ok(service.create(dto));
+    public ResponseEntity<?> create(@RequestBody ProductDTO dto) {
+        try {
+            return ResponseEntity.ok(service.create(dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error creating product: " + e.getMessage());
+        }
     }
+
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getAll() {
-        return ResponseEntity.ok(service.getAll());
+    public ResponseEntity<?> getAll() {
+        try {
+            return ResponseEntity.ok(service.getAll());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error fetching products: " + e.getMessage());
+        }
     }
+
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getById(id));
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(service.getById(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Product not found: " + e.getMessage());
+        }
     }
+
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> update(
-            @PathVariable Long id,
-            @RequestBody ProductDTO dto
-    ) {
-        return ResponseEntity.ok(service.update(id, dto));
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ProductDTO dto) {
+        try {
+            return ResponseEntity.ok(service.update(id, dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error updating product: " + e.getMessage());
+        }
     }
 
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-        service.delete(id);
-        return ResponseEntity.ok("Deleted successfully");
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        try {
+            service.delete(id);
+            return ResponseEntity.ok("Deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error deleting product: " + e.getMessage());
+        }
     }
 }

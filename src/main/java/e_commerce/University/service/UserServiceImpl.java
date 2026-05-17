@@ -4,7 +4,7 @@ import e_commerce.University.dto.UserDTO;
 import e_commerce.University.entity.User;
 import e_commerce.University.repository.UserRepository;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,9 +12,10 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepository) {
+    private final PasswordEncoder passwordEncoder;
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     private UserDTO mapToDTO(User user) {
@@ -38,6 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = mapToEntity(userDTO);
         return mapToDTO(userRepository.save(user));
     }

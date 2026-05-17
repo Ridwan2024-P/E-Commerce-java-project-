@@ -17,6 +17,7 @@ public class ProductServiceImpl implements ProductService {
         this.repository = repository;
     }
 
+
     private ProductDTO mapToDTO(Product product) {
         return new ProductDTO(
                 product.getId(),
@@ -26,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
         );
     }
 
+
     private Product mapToEntity(ProductDTO dto) {
         Product product = new Product();
         product.setName(dto.getName());
@@ -34,29 +36,40 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
+
     @Override
     public ProductDTO create(ProductDTO dto) {
+
         Product product = mapToEntity(dto);
-        return mapToDTO(repository.save(product));
+
+        repository.save(product);
+
+        return mapToDTO(product);
     }
 
     @Override
     public List<ProductDTO> getAll() {
+
         return repository.findAll()
                 .stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
 
+
     @Override
     public ProductDTO getById(Long id) {
+
         Product product = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
+
         return mapToDTO(product);
     }
 
+
     @Override
     public ProductDTO update(Long id, ProductDTO dto) {
+
         Product product = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
@@ -64,11 +77,15 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(dto.getPrice());
         product.setStock(dto.getStock());
 
-        return mapToDTO(repository.save(product));
+        repository.update(product);
+
+        return mapToDTO(product);
     }
+
 
     @Override
     public void delete(Long id) {
+
         repository.deleteById(id);
     }
 }

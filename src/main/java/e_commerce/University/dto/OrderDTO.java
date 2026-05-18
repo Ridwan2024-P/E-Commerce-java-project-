@@ -1,10 +1,12 @@
 package e_commerce.University.dto;
 
 import e_commerce.University.Enum.OrderStatus;
+import jakarta.validation.constraints.NotBlank;
 
 public class OrderDTO {
 
     private Long id;
+    @NotBlank(message = "UserID is required")
     private Long userId;
     private OrderStatus status;
     private Double totalAmount;

@@ -1,10 +1,15 @@
 package e_commerce.University.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class OrderItemDTO {
 
     private Long id;
+    @NotBlank(message = "orderId is required")
     private Long orderId;
+    @NotBlank(message = "ProductId is required")
     private Long productId;
+
     private Integer quantity;
     private Double price;
 

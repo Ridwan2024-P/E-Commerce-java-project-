@@ -1,12 +1,16 @@
 package e_commerce.University.dto;
 
 import e_commerce.University.Enum.UserRole;
+import jakarta.validation.constraints.NotBlank;
 
 public class UserDTO {
 
     private Long id;
+    @NotBlank(message = "Name is required")
     private String name;
+    @NotBlank(message = "Email is required")
     private String email;
+    @NotBlank(message = "Password is required")
     private String password;
     private UserRole role;
 
